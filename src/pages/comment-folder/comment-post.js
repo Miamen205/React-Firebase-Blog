@@ -30,7 +30,7 @@ class CommentPost extends React.Component
     {     
       const posts = this.state.posts;
       let data = this;
-      getFirebase.database().ref().child('posts').once('value',function(snapshot){
+      getFirebase().database().ref().child('posts').once('value',function(snapshot){
           snapshot.forEach(function(child){
             const postSet = [...data.state.posts]
             const newPost = {
@@ -143,10 +143,13 @@ class CommentPost extends React.Component
          </ErrorBoundary>
          </div>
          <div className = "description">
-         <ErrorBoundary>
-         <p id={"post"+post.postContent.postid} contentEditable="false" suppressContentEditableWarning="true"> {post.postContent.pstDescription.replace(/&nbsp;/g, " ")} </p>
-         <button id={"submit"+post.postContent.postid} onClick={this.submitPost} className="btn btn-primary hidden"> Submit </button>
-         </ErrorBoundary>
+           {
+            post.postContent && post.postContent.pstDescription &&
+            <ErrorBoundary>
+            <p id={"post"+post.postContent.postid} contentEditable="false" suppressContentEditableWarning="true"> {post.postContent.pstDescription.replace(/&nbsp;/g, " ")} </p>
+            <button id={"submit"+post.postContent.postid} onClick={this.submitPost} className="btn btn-primary hidden"> Submit </button>
+            </ErrorBoundary>
+           }
          </div>
          </div>
          <div className="commentSection" key={index}>
